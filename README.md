@@ -73,6 +73,19 @@ Ipharma-SolucionesDigitales/
 └── README.md
 ```
 
+## Configuracion de Conexion a BBDD
+
+### Generar Prisma Client
+```bash
+npx prisma generate
+```
+Este comando generará el cliente de Prisma en la ubicación especificada en tu archivo schema.prisma.
+
+### Probar la conexión
+```bash
+node src/test.js
+```
+
 ## Notas
 Asegurarse de no subir la carpeta node_modules/ al repositorio. Ya están correctamente ignoradas en los .gitignore de cada carpeta.
 
