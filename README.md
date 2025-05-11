@@ -41,7 +41,8 @@ El proyecto incluye configuración para ESLint y Prettier tanto en el frontend c
 ### Extensión recomendada
 Se recomienda instalar la siguiente extensión para VS Code:
 
-👉 Prettier ESLint (de Rebecca Vest) 
+👉 [Prettier ESLint (de Rebecca Vest)](https://marketplace.visualstudio.com/items?itemName=rvest.vs-code-prettier-eslint)
+
 
 - Configuración recomendada para settings.json
 ```bash
