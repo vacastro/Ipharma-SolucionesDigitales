@@ -1,0 +1,159 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+  shadowDatabaseUrl = env("SHADOW_DATABASE_URL") 
+}
+
+// Definición del proveedor
+model Proveedor {
+  id           Int         @id @default(autoincrement())
+  nombre       String
+  direccion    String
+  telefono     Int
+  medicamentos Medicamento[]
+}
+
+// Definición del medicamento
+model Medicamento {
+  id                Int             @id @default(autoincrement())
+  nombre            String
+  principioActivo   String          @map("principio_activo")
+  laboratorio       String
+  proveedorId       Int             @map("proveedor_id")
+  fechaVencimiento  DateTime        @map("fecha_vencimiento")
+  formaFarmaceutica FormaFarmaceutica @map("forma_farmaceutica")
+  presentacion      Presentacion    @map("presentacion")
+  lote              String
+  alertaStock       Boolean         @map("alerta_stock")
+  proveedor         Proveedor       @relation(fields: [proveedorId], references: [id])
+  devoluciones      Devolucion[]
+  inventarios       Inventario[]
+  recetasMedicamentos RecetaMedicamento[]
+  ventaMedicamentos VentaMedicamento[]
+}
+
+// Tipos de forma farmacéutica
+enum FormaFarmaceutica {
+  comprimido
+  solucion
+}
+
+// Tipos de presentación
+enum Presentacion {
+  caja5
+  caja10
+  solucion50
+  solucion80
+}
+
+// Definición de la tabla devoluciones
+model Devolucion {
+  id           Int         @id @default(autoincrement())
+  medicamentoId Int        @map("medicamento_id")
+  fecha        DateTime
+  cantidad     Int
+  motivo       String
+  medicamento  Medicamento @relation(fields: [medicamentoId], references: [id])
+}
+
+// Definición de inventario
+model Inventario {
+  id           Int         @id @default(autoincrement())
+  medicamentoId Int        @map("medicamento_id")
+  fecha        DateTime
+  cantidad     Int
+  medicamento  Medicamento @relation(fields: [medicamentoId], references: [id])
+}
+
+// Definición de la tabla recetas
+model Receta {
+  id               Int               @id @default(autoincrement())
+  pacienteNombre   String            @map("paciente_nombre")
+  medicoNombre     String            @map("medico_nombre")
+  fecha            DateTime
+  recetaMedicamentos RecetaMedicamento[]
+}
+
+// Definición de la relación receta_medicamento
+model RecetaMedicamento {
+  id            Int         @id @default(autoincrement())
+  recetaId      Int         @map("receta_id")
+  medicamentoId Int         @map("medicamento_id")
+  cantidad      Int
+  estado        Estado      @default(pendiente)
+  receta        Receta      @relation(fields: [recetaId], references: [id])
+  medicamento   Medicamento @relation(fields: [medicamentoId], references: [id])
+}
+
+// Estado de la receta
+enum Estado {
+  pendiente
+  recibido
+}
+
+// Definición de la tabla ventas
+model Venta {
+  id          Int          @id @default(autoincrement())
+  fecha       DateTime
+  clienteId   Int          @map("cliente_id")
+  usuarioId   Int          @map("usuario_id")
+  total       Decimal
+  formaPago   FormaPago
+  cliente     Cliente      @relation(fields: [clienteId], references: [id])
+  usuario     Usuario      @relation(fields: [usuarioId], references: [id])
+  ventaMedicamentos VentaMedicamento[]
+}
+
+// Forma de pago en ventas
+enum FormaPago {
+  efectivo
+  tarjeta
+}
+
+// Definición de la tabla venta_medicamento
+model VentaMedicamento {
+  id             Int         @id @default(autoincrement())
+  ventaId        Int         @map("venta_id")
+  medicamentoId  Int         @map("medicamento_id")
+  cantidad       Int
+  precioUnitario Decimal     @map("precio_unitario")
+  venta          Venta       @relation(fields: [ventaId], references: [id])
+  medicamento    Medicamento @relation(fields: [medicamentoId], references: [id])
+}
+
+// Definición de la tabla usuarios
+model Usuario {
+  id       Int        @id @default(autoincrement())
+  nombre   String
+  email    String
+  clave    String
+  perfil   Perfil
+  activo   Boolean
+  ventas   Venta[]
+}
+
+// Perfil del usuario
+enum Perfil {
+  farmaceutico
+  administrativo
+}
+
+// Definición de la tabla clientes
+model Cliente {
+  id          Int      @id @default(autoincrement())
+  email       String
+  nombre      String
+  suscripto   Boolean
+  ventas      Venta[]
+}
