@@ -35,7 +35,7 @@ model Medicamento {
   formaFarmaceutica FormaFarmaceutica @map("forma_farmaceutica")
   presentacion      Presentacion    @map("presentacion")
   lote              String
-  alertaStock       Boolean         @map("alerta_stock")
+  stock       Int         @map("stock")
   proveedor         Proveedor       @relation(fields: [proveedorId], references: [id])
   devoluciones      Devolucion[]
   inventarios       Inventario[]

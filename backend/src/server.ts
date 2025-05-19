@@ -10,11 +10,11 @@ const server = app.listen(PORT, () => {
 })
 
 // Manejo de cierre de conexion a la base de datos
-process.on('SIGINT', async () => {
-  console.log('Cerrando conexión con la base de datos...');
-  await prisma.$disconnect();
-  server.close(() => {
-    console.log('Servidor cerrado.');
-    process.exit(0);
-  });
-});
+//process.on('SIGINT', async () => {
+ // console.log('Cerrando conexión con la base de datos...');
+ // await prisma.$disconnect();
+ // server.close(() => {
+  //  console.log('Servidor cerrado.');
+  //  process.exit(0);
+  //});
+//});
