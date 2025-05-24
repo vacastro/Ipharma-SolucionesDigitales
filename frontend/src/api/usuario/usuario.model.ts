@@ -1,7 +1,7 @@
 import type { EnumPerfil } from "../enums.api"
 
 export type Usuario = {
-    id: number
+    id?: number
     nombre: string
     email: string
     clave: string
