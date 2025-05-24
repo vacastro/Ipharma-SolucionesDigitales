@@ -2,7 +2,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { lazy, Suspense } from 'react';
 import { PrivateRoute } from './PrivateRoute';
 import { PublicRoute } from './PublicRoute';
-import { DashboardLayout } from '../shared/layout/DashboardLayout';
+import { DashboardLayout } from '../shared/layout/dashboardLayout';
 import { LoginForm } from '../pages/login/loginForm';
 
 const MedicamentosPage = lazy(() => import('../pages/medicamentos/MedicamentosPage'));
