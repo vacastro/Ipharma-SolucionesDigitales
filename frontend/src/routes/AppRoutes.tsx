@@ -8,6 +8,7 @@ import PageLoader from '../shared/pageLoader/PageLoader';
 const MedicamentosPage = lazy(() => import('../pages/medicamentos/MedicamentosPage'));
 const LoginPage = lazy(() => import('../pages/login/LoginPage'));
 const RegisterPage = lazy(() => import('../pages/register/RegisterPage'));
+const MenuPrincipalPage = lazy(() => import('../pages/menuPrincipal/MenuPrincipal'));
 
 export const AppRoutes = () => (
   <Router>
@@ -21,6 +22,7 @@ export const AppRoutes = () => (
 
         {/* Rutas privadas */}
         <Route element={<PrivateRoute />}>
+          <Route path="/menu-principal" element={<MenuPrincipalPage />} />
           <Route element={<DashboardLayout />}>
             <Route
               path="/medicamentos"
