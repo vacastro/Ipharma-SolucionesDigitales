@@ -13,12 +13,14 @@ import { useForm } from 'react-hook-form';
 import { registerUser } from './register.services';
 import type { RegisterFormInputs } from './register.models';
 import { mapFormDataToRequest } from './register.mapper';
+import { useNotification } from '../../shared/notifications/notifications.provider';
 
 
 
 export const RegisterPage = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const { showNotification } = useNotification();
 
   const {
     register,
@@ -27,15 +29,20 @@ export const RegisterPage = () => {
     formState: { errors },
   } = useForm<RegisterFormInputs>();
 
-  const onSubmit = (data: RegisterFormInputs) => {
+  const onSubmit = async (data: RegisterFormInputs) => {
+  try {
     const request = mapFormDataToRequest(data);
-    const response = registerUser(request);
-    if (response) {
-      console.log('Usuario registrado:', response);
+    const result = await registerUser(request);
+
+    if (result.success) {
+      showNotification('Usuario registrado con éxito', 'success');
     } else {
-      console.error('Error al registrar el usuario');
+      showNotification(result.message || 'Error al registrar el usuario', 'error');
     }
-  };
+  } catch (error) {
+    showNotification('Error inesperado al registrar el usuario', 'error');
+  }
+};
 
   // Para validar que password y confirmPassword coincidan
   const password = watch('password');

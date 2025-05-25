@@ -1,11 +1,10 @@
-import { apiCreateUser } from "../../api/usuario/usuario.api";
-import type { Usuario } from "../../api/usuario/usuario.model";
+import { apiGetUser } from "../../api/usuario/usuario.api";
 import { handleApiError, handleApiSuccess } from "../../services/apiResponse/apiResponse.mapper";
 import type { ApiResponse } from "../../services/apiResponse/apiResponse.model";
 
-export const registerUser = async (userData: Usuario): Promise<ApiResponse> => {
+export const loginUser = async (email: string, pass: string): Promise<ApiResponse> => {
     try {
-        const res = await apiCreateUser(userData);
+        const res = await apiGetUser(email, pass);
         return handleApiSuccess(res);
     } catch (error) {
         return handleApiError(error);
