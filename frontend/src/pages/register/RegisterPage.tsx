@@ -14,10 +14,15 @@ import { registerUser } from './register.services';
 import type { RegisterFormInputs } from './register.models';
 import { mapFormDataToRequest } from './register.mapper';
 import { useNotification } from '../../shared/notifications/notifications.provider';
+import { useNavigate } from 'react-router-dom';
+import { useAppDispatch } from '../../redux/hooks';
+import { login } from '../../redux/slices/authSlice';
 
 
 
 export const RegisterPage = () => {
+  const navigate = useNavigate();
+  const dispatch = useAppDispatch();
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const { showNotification } = useNotification();
@@ -36,6 +41,19 @@ export const RegisterPage = () => {
 
     if (result.success) {
       showNotification('Usuario registrado con éxito', 'success');
+        // Guardar en Redux
+        dispatch(login({
+        user: result.data.user,
+        token: result.data.token
+        }));
+        
+        // También guarda en localStorage para persistencia
+        localStorage.setItem('token', result.data.token);
+
+        showNotification('Inicio de sesión exitoso', 'success');
+
+        // Navegación a la página de medicamentos
+        navigate('/medicamentos');
     } else {
       showNotification(result.message || 'Error al registrar el usuario', 'error');
     }

@@ -46,7 +46,8 @@ export const LoginPage = () => {
         localStorage.setItem('token', response.data.token);
 
         showNotification('Inicio de sesión exitoso', 'success');
-        // Aquí puedes redirigir al usuario a la página principal o dashboard
+
+        // Navegación a la página de medicamentos
         navigate('/medicamentos');
 
       } else {
@@ -138,7 +139,7 @@ export const LoginPage = () => {
           </Button>
 
           <Typography variant="body2" textAlign="center">
-            <Link component={RouterLink} to="/medicamentos">Registrarse</Link>
+            <Link component={RouterLink} to="/register">Registrarse</Link>
           </Typography>
         </Paper>
       </Box>
