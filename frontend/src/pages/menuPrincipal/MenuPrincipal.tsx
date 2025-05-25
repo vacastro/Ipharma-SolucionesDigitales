@@ -1,40 +1,41 @@
-import { Box, Button, Typography } from '@mui/material';
-import {
-  Search,
-  AddBox,
-  Event,
-  Inventory,
-  History,
-  Warning,
-  Help,
-} from '@mui/icons-material';
+import { Box, Button } from '@mui/material';
+import { Inventory } from '@mui/icons-material';
+import AppsIcon from '@mui/icons-material/Apps';
+import LocalShippingIcon from '@mui/icons-material/LocalShipping';
+import PodcastsIcon from '@mui/icons-material/Podcasts';
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
+import TrendingUpIcon from '@mui/icons-material/TrendingUp';
+import PersonAddIcon from '@mui/icons-material/PersonAdd';
+import FolderIcon from '@mui/icons-material/Folder';
+import Navbar from '../../shared/navbar/Navbar';
+import { Link } from 'react-router-dom'; 
 
 const menuItems = [
-  { text: 'Pharma Stock', icon: <Search sx={{ color: '#155fa0' }} /> },
-  { text: 'Supplier Hub', icon: <AddBox sx={{ color: '#155fa0' }} /> },
-  { text: 'Rx Connect', icon: <Event sx={{ color: '#155fa0' }} /> },
-  { text: 'Alertify', icon: <Inventory sx={{ color: '#155fa0' }} /> },
-  { text: 'Pharma POS', icon: <History sx={{ color: '#155fa0' }} /> },
-  { text: 'Pharma Analitycs', icon: <Inventory sx={{ color: '#155fa0' }} /> },
-  { text: 'Access Pharma', icon: <Warning sx={{ color: '#155fa0' }} /> },
-  { text: 'Pharma Docs', icon: <Help sx={{ color: '#155fa0' }} /> },
+  { text: 'Pharma Stock', icon: <AppsIcon sx={{ color: '#155fa0' }} />, path: '/medicamentos' },
+  { text: 'Supplier Hub', icon: <LocalShippingIcon sx={{ color: '#155fa0' }} /> },
+  { text: 'Rx Connect', icon: <Inventory sx={{ color: '#155fa0' }} /> },
+  { text: 'Alertify', icon: <PodcastsIcon sx={{ color: '#155fa0' }} /> },
+  { text: 'Pharma POS', icon: <ShoppingCartIcon sx={{ color: '#155fa0' }} /> },
+  { text: 'Pharma Analitycs', icon: <TrendingUpIcon sx={{ color: '#155fa0' }} /> },
+  { text: 'Access Pharma', icon: <PersonAddIcon sx={{ color: '#155fa0' }} /> },
+  { text: 'Pharma Docs', icon: <FolderIcon sx={{ color: '#155fa0' }} /> },
 ];
 
 const MenuPrincipal = () => {
   return (
+    <Box sx={{ display: 'flex', flexDirection: 'column', height: '100vh' }}>
+      <Navbar />
     <Box
       sx={{
-        height: '100vh',
+        flexGrow: 1,
         bgcolor: '#eaf0ff',
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'center',
         alignItems: 'center',
         py: 4,
-        px: 2,
       }}
     >
-
       <Box
         sx={{
           display: 'grid',
@@ -44,9 +45,9 @@ const MenuPrincipal = () => {
           maxWidth: 1000,
         }}
       >
-        {menuItems.map(({ text, icon }) => (
+        {menuItems.map(({ text, icon, path }) => (
+          <Link key={text} to={path || '#'} style={{ textDecoration: 'none' }}>
           <Button
-            key={text}
             variant="outlined"
             startIcon={icon}
             sx={{
@@ -66,8 +67,10 @@ const MenuPrincipal = () => {
           >
             {text}
           </Button>
+        </Link>
         ))}
       </Box>
+    </Box>
     </Box>
   );
 };
