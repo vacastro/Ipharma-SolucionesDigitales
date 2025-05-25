@@ -6,14 +6,14 @@ import {
   TextField,
   Typography,
   Link,
-  InputAdornment,
-  IconButton,
   Paper
 } from '@mui/material';
-import { Visibility, VisibilityOff } from '@mui/icons-material';
-import { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { Link as RouterLink } from 'react-router-dom';
+import { Link as RouterLink, useNavigate } from 'react-router-dom';
+import { loginUser } from './login.services';
+import { useNotification } from '../../shared/notifications/notifications.provider';
+import { useAppDispatch } from '../../redux/hooks';
+import { login } from '../../redux/slices/authSlice';
 
 
 interface LoginFormInputs {
@@ -23,15 +23,39 @@ interface LoginFormInputs {
 }
 
 export const LoginPage = () => {
-  const [showPassword, setShowPassword] = useState(false);
+  const navigate = useNavigate();
+  const dispatch = useAppDispatch();
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm<LoginFormInputs>();
+  const { showNotification } = useNotification();
 
-  const onSubmit = (data: LoginFormInputs) => {
-    console.log('Formulario enviado:', data);
+  const onSubmit = async (data: LoginFormInputs) => {
+    try{
+      const response = await loginUser(data.email, data.password);
+      if (response.success) {
+        // Guardar en Redux
+        dispatch(login({
+          user: response.data.user,
+          token: response.data.token
+        }));
+        
+        // También guarda en localStorage para persistencia
+        localStorage.setItem('token', response.data.token);
+
+        showNotification('Inicio de sesión exitoso', 'success');
+
+        // Navegación a la página de medicamentos
+        navigate('/medicamentos');
+
+      } else {
+        showNotification(response.message || 'Error al iniciar sesión', 'error');
+      }
+    } catch (error) {
+      showNotification('Error inesperado al iniciar sesión', 'error');
+    }
   };
 
   return (
@@ -86,24 +110,13 @@ export const LoginPage = () => {
             fullWidth
             margin="normal"
             label="Ingrese su contraseña"
-            type={showPassword ? 'text' : 'password'}
+            type={'password'}
             error={!!errors.password}
             helperText={errors.password?.message}
             {...register('password', {
               required: 'La contraseña es obligatoria',
               minLength: { value: 6, message: 'Mínimo 6 caracteres' },
             })}
-            slotProps={{
-              input: {
-                endAdornment: (
-                  <InputAdornment position="end">
-                    <IconButton onClick={() => setShowPassword(prev => !prev)} edge="end">
-                      {showPassword ? <VisibilityOff /> : <Visibility />}
-                    </IconButton>
-                  </InputAdornment>
-                ),
-              },
-            }}
           />
 
           <Box display="flex" justifyContent="space-between" alignItems="center" mt={2}>

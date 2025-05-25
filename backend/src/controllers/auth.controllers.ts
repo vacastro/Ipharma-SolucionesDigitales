@@ -2,27 +2,29 @@ import bcrypt from 'bcrypt';
 import prisma from '../db';
 import { Request, Response } from 'express';
 import { UserProfile } from '../models/enums';
-import { Perfil } from '../generated/prisma'
+import { Perfil, Usuario } from '../generated/prisma'
 import { generateToken } from '../utils/jwt';
 
 export const registerUser = async (req: Request, res: Response) => {
-  const { email, password, nombre, profile } = req.body;
+  const { email, clave, nombre, perfil } = req.body as Usuario;
 
-  const existingUser = await prisma.usuario.findFirst({ where: { email:email } });
+  const existingUser = await prisma.usuario.findFirst({ where: { email: email } });
   if (existingUser) res.status(400).json({ message: 'Email ya registrado' });
 
-  if (!isValidPerfilEnum(profile)) {
-   res.status(400).json({ message: 'Perfil inválido' });
- }
+  if (!isValidPerfilEnum(perfil)) {
+    res.status(400).json({ message: 'Perfil inválido' });
+  }
 
-  const hashedPassword = await bcrypt.hash(password, 10);
+  const hashedPassword = await bcrypt.hash(clave, 10);
+
+  console.log('Registrando usuario ...', { email, clave, nombre, perfil, hashedPassword });
 
   const user = await prisma.usuario.create({
     data: {
       nombre: nombre,
       email: email,
       clave: hashedPassword,
-      perfil: profile,
+      perfil: perfil,
       activo: true
     },
   });
