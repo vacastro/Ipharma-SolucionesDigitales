@@ -15,9 +15,42 @@ const options: swaggerJSDoc.Options = {
         url: 'http://localhost:5000/api',
       },
     ],
+    tags: [
+      {
+        name: 'Autenticación',
+        description: 'Endpoints para login y registro',
+      },
+      {
+        name: 'Usuarios',
+        description: 'Gestión de usuarios del sistema',
+      },
+      {
+        name: 'Medicamentos',
+        description: 'Gestión de medicamentos',
+      },
+      {
+        name: 'Proveedores',
+        description: 'Gestión de proveedores',
+      },
+    ],
+    components: {
+      securitySchemes: {
+        bearerAuth: {
+          type: 'http',
+          scheme: 'bearer',
+          bearerFormat: 'JWT',
+        },
+      },
+    },
+    security: [
+      {
+        bearerAuth: [],
+      },
+    ],
   },
-  apis: ['./src/routes/**/*.ts'], 
+  apis: ['./src/routes/**/*.ts'],
 };
+
 
 const specs = swaggerJSDoc(options);
 
