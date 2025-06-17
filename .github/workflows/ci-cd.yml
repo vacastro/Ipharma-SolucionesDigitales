@@ -1,0 +1,55 @@
+name: CI/CD - Ipharma
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  test-backend:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Clonar repositorio
+        uses: actions/checkout@v3
+
+      - name: Instalar Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      - name: Instalar dependencias backend
+        run: npm install
+        working-directory: ./backend
+
+      - name: Ejecutar tests
+        run: npm test
+        working-directory: ./backend
+
+  docker-build-and-push:
+    needs: test-backend
+    runs-on: ubuntu-latest
+    steps:
+      - name: Clonar repositorio
+        uses: actions/checkout@v3
+
+      - name: Login en Docker Hub
+        run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
+
+      - name: Buildear imagen backend
+        run: docker build -t ${{ secrets.DOCKER_USERNAME }}/ipharma-backend:latest ./backend
+
+      - name: Buildear imagen frontend
+        run: docker build -t ${{ secrets.DOCKER_USERNAME }}/ipharma-frontend:latest ./frontend
+
+      - name: Pushear imagen backend
+        run: docker push ${{ secrets.DOCKER_USERNAME }}/ipharma-backend:latest
+
+      - name: Pushear imagen frontend
+        run: docker push ${{ secrets.DOCKER_USERNAME }}/ipharma-frontend:latest
+
+  deploy:
+    needs: docker-build-and-push
+    runs-on: ubuntu-latest
+    steps:
+      - name: Llamar hook de deploy en Render (o similar)
+        run: curl -X POST ${{ secrets.RENDER_DEPLOY_HOOK_URL }}
