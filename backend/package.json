@@ -4,7 +4,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "node -r ts-node/register --watch src/server.ts",
-    "build": "tsc",
+    "build": "tsc && prisma generate",
     "start": "node dist/server.js",
     "format": "prettier --write \"src/**/*.{ts,js}\"",
     "lint": "eslint src --ext .ts",
