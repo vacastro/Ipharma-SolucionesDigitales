@@ -49,17 +49,11 @@ const options: swaggerJSDoc.Options = {
       },
     ],
   },
-<<<<<<< Updated upstream
-  apis: ['./src/routes/**/*.ts'],
-};
-
-=======
   apis: [path.resolve(__dirname, './routes/**/*.js')], // CORRECTO PARA PRODUCCIÓN
+  //apis: ['./src/routes/**/*.ts'], // CORRECTO PARA DEVELOP
 };
 
 console.log('Swagger files scanned:', options.apis); // 👈 Este log nos da la pista real
-
->>>>>>> Stashed changes
 
 const specs = swaggerJSDoc(options);
 
