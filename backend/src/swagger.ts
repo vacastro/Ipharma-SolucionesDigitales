@@ -1,6 +1,7 @@
 import swaggerJSDoc from 'swagger-jsdoc';
 import swaggerUi from 'swagger-ui-express';
 import { Express } from 'express';
+import path from 'path';
 
 const options: swaggerJSDoc.Options = {
   definition: {
@@ -48,9 +49,17 @@ const options: swaggerJSDoc.Options = {
       },
     ],
   },
+<<<<<<< Updated upstream
   apis: ['./src/routes/**/*.ts'],
 };
 
+=======
+  apis: [path.resolve(__dirname, './routes/**/*.js')], // CORRECTO PARA PRODUCCIÓN
+};
+
+console.log('Swagger files scanned:', options.apis); // 👈 Este log nos da la pista real
+
+>>>>>>> Stashed changes
 
 const specs = swaggerJSDoc(options);
 
