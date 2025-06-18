@@ -49,8 +49,11 @@ const options: swaggerJSDoc.Options = {
       },
     ],
   },
-  apis: [path.resolve(__dirname, './routes/**/*.js')], // CORRECTO PARA PRODUCCIÓN
-  //apis: ['./src/routes/**/*.ts'], // CORRECTO PARA DEVELOP
+  apis: [
+    process.env.SWAGGER_APIS_PATH
+      ? path.resolve(__dirname, process.env.SWAGGER_APIS_PATH)
+      : './src/routes/**/*.ts',
+  ],
 };
 
 console.log('Swagger files scanned:', options.apis);

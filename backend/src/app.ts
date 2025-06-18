@@ -1,7 +1,7 @@
 import routes from './routes';
 import express from 'express'
 import cors from 'cors';
-
+import metricsRouter from './metrics';
 import { setupSwagger } from './swagger';
 
 
@@ -11,7 +11,9 @@ app.use(cors())
 app.use(express.json())
 app.use('/api', routes);
 
-setupSwagger(app); 
+setupSwagger(app);
+
+app.use(metricsRouter);
 
 app.get('/api/ping', (_req, res) => {
   res.json({ message: 'pong' })
