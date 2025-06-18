@@ -17,20 +17,21 @@ const bcrypt_1 = __importDefault(require("bcrypt"));
 const db_1 = __importDefault(require("../db"));
 const jwt_1 = require("../utils/jwt");
 const registerUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { email, password, nombre, profile } = req.body;
+    const { email, clave, nombre, perfil } = req.body;
     const existingUser = yield db_1.default.usuario.findFirst({ where: { email: email } });
     if (existingUser)
         res.status(400).json({ message: 'Email ya registrado' });
-    if (!isValidPerfilEnum(profile)) {
+    if (!isValidPerfilEnum(perfil)) {
         res.status(400).json({ message: 'Perfil inválido' });
     }
-    const hashedPassword = yield bcrypt_1.default.hash(password, 10);
+    const hashedPassword = yield bcrypt_1.default.hash(clave, 10);
+    console.log('Registrando usuario ...', { email, clave, nombre, perfil, hashedPassword });
     const user = yield db_1.default.usuario.create({
         data: {
             nombre: nombre,
             email: email,
             clave: hashedPassword,
-            perfil: profile,
+            perfil: perfil,
             activo: true
         },
     });

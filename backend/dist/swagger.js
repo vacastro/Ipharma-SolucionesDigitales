@@ -20,8 +20,41 @@ const options = {
                 url: 'http://localhost:5000/api',
             },
         ],
+        tags: [
+            {
+                name: 'Autenticación',
+                description: 'Endpoints para login y registro',
+            },
+            {
+                name: 'Usuarios',
+                description: 'Gestión de usuarios del sistema',
+            },
+            {
+                name: 'Medicamentos',
+                description: 'Gestión de medicamentos',
+            },
+            {
+                name: 'Proveedores',
+                description: 'Gestión de proveedores',
+            },
+        ],
+        components: {
+            securitySchemes: {
+                bearerAuth: {
+                    type: 'http',
+                    scheme: 'bearer',
+                    bearerFormat: 'JWT',
+                },
+            },
+        },
+        security: [
+            {
+                bearerAuth: [],
+            },
+        ],
     },
     apis: [path_1.default.resolve(__dirname, './routes/**/*.js')], // CORRECTO PARA PRODUCCIÓN
+    //apis: ['./src/routes/**/*.ts'], // CORRECTO PARA DEVELOP
 };
 console.log('Swagger files scanned:', options.apis); // 👈 Este log nos da la pista real
 const specs = (0, swagger_jsdoc_1.default)(options);

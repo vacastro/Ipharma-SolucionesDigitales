@@ -2,7 +2,7 @@ import bcrypt from 'bcrypt';
 import prisma from '../db';
 import { Request, Response } from 'express';
 import { UserProfile } from '../models/enums';
-import { Perfil, Usuario } from '../generated/prisma'
+import { Perfil, Usuario } from '../../generated/prisma'
 import { generateToken } from '../utils/jwt';
 
 export const registerUser = async (req: Request, res: Response) => {

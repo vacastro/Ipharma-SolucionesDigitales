@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { PrismaClient } from '../../src/generated/prisma';
+import { PrismaClient } from '../../generated/prisma';
 
 const prisma = new PrismaClient();
 
@@ -9,7 +9,7 @@ export const crearProveedor = async (req: Request, res: Response) => {
 
     // Validaciones básicas
     if (!nombre || !direccion || !telefono) {
-       res.status(400).json({ message: 'Todos los campos son obligatorios.' });
+      res.status(400).json({ message: 'Todos los campos son obligatorios.' });
     }
 
     // Validar que no exista un proveedor con el mismo nombre
@@ -18,7 +18,7 @@ export const crearProveedor = async (req: Request, res: Response) => {
     });
 
     if (proveedorExistente) {
-       res.status(409).json({ message: 'Ya existe un proveedor con ese nombre.' });
+      res.status(409).json({ message: 'Ya existe un proveedor con ese nombre.' });
     }
 
     // Crear proveedor

@@ -1,7 +1,7 @@
 // src/controllers/users.controller.ts
 import { Request, Response } from 'express';
 import prisma from '../db';
-import { Perfil } from '../generated/prisma';
+import { Perfil } from '../../generated/prisma';
 
 export const getUsers = async (_req: Request, res: Response) => {
   try {

@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { PrismaClient, FormaFarmaceutica, Presentacion } from '../../src/generated/prisma';
+import { PrismaClient, FormaFarmaceutica, Presentacion } from '../../generated/prisma';
 import axios from 'axios';
 import * as XLSX from 'xlsx';
 

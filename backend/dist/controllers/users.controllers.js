@@ -12,12 +12,21 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.deleteUser = exports.updateUser = exports.getUserById = exports.getUsers = void 0;
+exports.obtenerPerfiles = exports.createUser = exports.deleteUser = exports.updateUser = exports.getUserById = exports.getUsers = void 0;
 const db_1 = __importDefault(require("../db"));
+const prisma_1 = require("../generated/prisma");
 const getUsers = (_req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const users = yield db_1.default.usuario.findMany({ select: { id: true, nombre: true, email: true } });
-        res.json(users);
+        const users = yield db_1.default.usuario.findMany({
+            select: {
+                id: true,
+                nombre: true,
+                email: true,
+                perfil: true,
+                activo: true,
+            },
+        });
+        res.status(200).json(users);
     }
     catch (err) {
         res.status(500).json({ message: 'Error al obtener usuarios', error: err });
@@ -60,3 +69,34 @@ const deleteUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
     }
 });
 exports.deleteUser = deleteUser;
+const createUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { nombre, email, clave, perfil } = req.body;
+    if (!nombre || !email || !clave || !perfil) {
+        res.status(400).json({ message: 'Todos los campos son obligatorios' });
+    }
+    if (!['farmaceutico', 'administrativo'].includes(perfil)) {
+        res.status(400).json({ message: 'Perfil no válido' });
+    }
+    try {
+        const nuevoUsuario = yield db_1.default.usuario.create({
+            data: {
+                nombre,
+                email,
+                clave,
+                perfil,
+                activo: true,
+            },
+        });
+        res.status(201).json(nuevoUsuario);
+    }
+    catch (error) {
+        console.error('Error al crear usuario:', error);
+        res.status(500).json({ message: 'Error interno al crear usuario' });
+    }
+});
+exports.createUser = createUser;
+const obtenerPerfiles = (_req, res) => {
+    const perfiles = Object.values(prisma_1.Perfil);
+    res.status(200).json(perfiles);
+};
+exports.obtenerPerfiles = obtenerPerfiles;
