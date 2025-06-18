@@ -8,5 +8,5 @@
     "esModuleInterop": true,
     "removeComments": false
   },
-  "include": ["src", "src/generated"]
+  "include": ["src", "src/generated", "test"]
 }
