@@ -22,10 +22,10 @@
     },
     {
       "type": "graph",
-      "title": "Request Rate (per 5s)",
+      "title": "Request Rate (per 1m)",
       "targets": [
         {
-          "expr": "rate(http_requests_total[5s])",
+          "expr": "rate(http_requests_total[1m])",
           "legendFormat": "{{method}}",
           "interval": ""
         }
