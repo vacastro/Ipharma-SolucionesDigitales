@@ -13,7 +13,7 @@ const options: swaggerJSDoc.Options = {
     },
     servers: [
       {
-        url: 'http://localhost:5000/api',
+        url: process.env.SWAGGER_API_URL || 'http://localhost:5000/api',
       },
     ],
     tags: [
@@ -49,11 +49,11 @@ const options: swaggerJSDoc.Options = {
       },
     ],
   },
-  apis: [path.resolve(__dirname, './routes/**/*.js')], // CORRECTO PARA PRODUCCIÓN
-  //apis: ['./src/routes/**/*.ts'], // CORRECTO PARA DEVELOP
+  //apis: [path.resolve(__dirname, './routes/**/*.js')], // CORRECTO PARA PRODUCCIÓN
+  apis: ['./src/routes/**/*.ts'], // CORRECTO PARA DEVELOP
 };
 
-console.log('Swagger files scanned:', options.apis); // 👈 Este log nos da la pista real
+console.log('Swagger files scanned:', options.apis);
 
 const specs = swaggerJSDoc(options);
 
