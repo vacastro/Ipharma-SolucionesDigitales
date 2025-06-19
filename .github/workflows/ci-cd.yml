@@ -3,7 +3,8 @@ name: CI/CD - Ipharma
 on:
   push:
     branches:
-      - main
+      - produccion
+  workflow_dispatch:
 
 jobs:
   test-backend:
@@ -12,6 +13,14 @@ jobs:
       - name: Clonar repositorio
         uses: actions/checkout@v3
 
+      - name: Cachear node_modules
+        uses: actions/cache@v3
+        with:
+          path: ./backend/node_modules
+          key: ${{ runner.os }}-npm-cache-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-npm-cache-
+
       - name: Instalar Node.js
         uses: actions/setup-node@v3
         with:
@@ -19,6 +28,22 @@ jobs:
 
       - name: Instalar dependencias backend
         run: npm install
+        working-directory: ./backend
+
+      - name: Crear archivo .env
+        run: |
+          echo "DATABASE_URL=${{ secrets.DATABASE_URL }}" >> .env
+          echo "JWT_SECRET=${{ secrets.JWT_SECRET }}" >> .env
+          echo "SWAGGER_API_URL=${{ secrets.SWAGGER_API_URL }}" >> .env
+          echo "SWAGGER_APIS_PATH=${{ secrets.SWAGGER_APIS_PATH }}" >> .env
+        working-directory: ./backend
+
+      - name: Generar Prisma Client
+        run: npx prisma generate
+        working-directory: ./backend
+
+      - name: Compilar backend
+        run: npm run build
         working-directory: ./backend
 
       - name: Ejecutar tests
@@ -36,16 +61,16 @@ jobs:
         run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
 
       - name: Buildear imagen backend
-        run: docker build -t ${{ secrets.DOCKER_USERNAME }}/ipharma-backend:latest ./backend
+        run: docker build -t ${{ secrets.DOCKER_USERNAME }}/ipharma-backend:${{ github.sha }} ./backend
 
       - name: Buildear imagen frontend
-        run: docker build -t ${{ secrets.DOCKER_USERNAME }}/ipharma-frontend:latest ./frontend
+        run: docker build -t ${{ secrets.DOCKER_USERNAME }}/ipharma-frontend:${{ github.sha }} ./frontend
 
       - name: Pushear imagen backend
-        run: docker push ${{ secrets.DOCKER_USERNAME }}/ipharma-backend:latest
+        run: docker push ${{ secrets.DOCKER_USERNAME }}/ipharma-backend:${{ github.sha }}
 
       - name: Pushear imagen frontend
-        run: docker push ${{ secrets.DOCKER_USERNAME }}/ipharma-frontend:latest
+        run: docker push ${{ secrets.DOCKER_USERNAME }}/ipharma-frontend:${{ github.sha }}
 
   deploy:
     needs: docker-build-and-push
