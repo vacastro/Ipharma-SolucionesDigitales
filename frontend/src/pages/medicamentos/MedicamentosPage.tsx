@@ -23,7 +23,7 @@ export const MedicamentosPage: React.FC = () => {
     { field: 'existencia', headerName: 'Existencia', flex: 0.5 },
     {
       field: 'acciones',
-      headerName: '',
+      headerName: 'Acciones',
       sortable: false,
       filterable: false,
       flex: 0.7,
