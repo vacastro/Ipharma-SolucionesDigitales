@@ -25,7 +25,7 @@ services:
       SHADOW_DATABASE_URL: mysql://ipharma_user:ipharma_pass@mysql:3306/ipharma_shadow
     ports:
       - "5000:5000"
-    command: node dist/server.js
+    command: sh -c "npx prisma migrate deploy && node dist/server.js"
 
   frontend:
     build: ./frontend
