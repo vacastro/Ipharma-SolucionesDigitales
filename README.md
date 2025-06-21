@@ -1,94 +1,54 @@
 # Ipharma Soluciones Digitales
 
-Este proyecto es una solución digital para la gestión de farmacias, desarrollado con un enfoque full-stack utilizando **Vite**, **React**, **TypeScript**, y **Node.js**. Incluye herramientas de calidad de código como **ESLint** y **Prettier** para mantener un código limpio y consistente.
+## Ipharma - Sistema de Gestión para Farmacias
 
-## Requisitos Previos
+Este proyecto corresponde al Trabajo Práctico Integrador de la materia DevOps. Consiste en un sistema backend para gestión de medicamentos, usuarios, proveedores y recetas, con monitoreo, pruebas automatizadas y CI/CD.
 
-- [Node.js](https://nodejs.org/) v18 o superior  
-- [npm](https://www.npmjs.com/) v9 o superior  
-- [Git](https://git-scm.com/)
+##  Tecnologías utilizadas
 
-## Clonación del Repositorio
+* Node.js + Express (Backend)
+* TypeScript
+* Prisma ORM
+* MySQL (Base de datos)
+* Docker + Docker Compose
+* Swagger (Documentación API)
+* Prometheus + Grafana (Monitoreo)
+* GitHub Actions (CI/CD)
+* Render (Despliegue)
+* React + Vite (Frontend opcional)
+
+##  Instrucciones para correrlo localmente con Docker
+
+### 1. Clonar el repositorio
 
 ```bash
 git clone https://github.com/vacastro/Ipharma-SolucionesDigitales.git
 cd Ipharma-SolucionesDigitales
+git checkout produccion
 ```
 
-## Instalación de Dependencias
+### 2. Crear el archivo `.env`
 
-Desde la raíz del proyecto, instalá las dependencias de todos los paquetes:
+Crear un archivo `.env` dentro de la carpeta `backend/` con el siguiente contenido:
+
+```ini
+DATABASE_URL="mysql://root@localhost:3306/ipharma"
+SHADOW_DATABASE_URL="mysql://root@localhost:3306/ipharma_shadow"
+JWT_SECRET=Qw8!zP4rT2@xL9$eV7^bN6&uK1*oM3%jS5
+SWAGGER_API_URL=http://localhost:5000/api
+SWAGGER_APIS_PATH=../src/routes/**/*.ts
+```
+
+### 3. Levantar todos los servicios
+
 ```bash
-npm install
-```
-Este comando instala las dependencias tanto del frontend como del backend.
-
-## Scripts Disponibles
-
-### En la raíz del proyecto
- - Iniciar frontend y backend en paralelo:
-```bash
-npm start
-```
-Este comando utiliza concurrently para levantar tanto el servidor de desarrollo de React (frontend) como el backend de Node.js/Express.
- - Formatear el código con Prettier:
-```bash
-npm run format
-```
-## ESLint y Prettier
-El proyecto incluye configuración para ESLint y Prettier tanto en el frontend como en el backend, con reglas específicas para TypeScript y React.
-
-### Extensión recomendada
-Se recomienda instalar la siguiente extensión para VS Code:
-
-👉 [Prettier ESLint (de Rebecca Vest)](https://marketplace.visualstudio.com/items?itemName=rvest.vs-code-prettier-eslint)
-
-
-- Configuración recomendada para settings.json
-```bash
-{
-  "editor.defaultFormatter": "rvest.vs-code-prettier-eslint",
-  "editor.formatOnType": false,
-  "editor.formatOnPaste": true,
-  "editor.formatOnSave": true,
-  "editor.formatOnSaveMode": "file",
-  "files.autoSave": "onFocusChange",
-  "vs-code-prettier-eslint.prettierLast": false
-}
-
-```
-## Estructura del proyecto
-```bash
-Ipharma-SolucionesDigitales/
-│
-├── backend/         # Servidor Express con TypeScript
-│   ├── src/
-│   └── ...
-│
-├── frontend/        # Aplicación Vite + React + TypeScript
-│   ├── src/
-│   └── ...
-│
-├── package.json     # Comandos globales y configuración de concurrently
-└── README.md
+docker-compose up -d
 ```
 
-## Configuracion de Conexion a BBDD
+### 4. Acceder desde el navegador
 
-### Generar Prisma Client
-```bash
-npx prisma generate
-```
-Este comando generará el cliente de Prisma en la ubicación especificada en tu archivo schema.prisma.
-
-### Probar la conexión
-```bash
-node src/test.js
-```
-
-## Notas
-Asegurarse de no subir la carpeta node_modules/ al repositorio. Ya están correctamente ignoradas en los .gitignore de cada carpeta.
-
-Para agregar nuevas dependencias, hacelo dentro del directorio correspondiente (frontend o backend), dependiendo del uso.
-
-
+* **Swagger**: [http://localhost:5000/api-docs](http://localhost:5000/api-docs)
+* **Frontend**: [http://localhost:3000](http://localhost:3000)
+* **Grafana**: [http://localhost:3001](http://localhost:3001) (Usuario: `admin`, Contraseña: `admin`)
+* **Prometheus**: [http://localhost:9090](http://localhost:9090)
+* **Metrocas**: [http://localhost:5000/metrics](http://localhost:5000/metrics)
