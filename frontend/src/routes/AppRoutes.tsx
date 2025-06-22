@@ -7,6 +7,7 @@ import PageLoader from '../shared/pageLoader/PageLoader';
 
 const MedicamentosPage = lazy(() => import('../pages/medicamentos/MedicamentosPage'));
 const SupplierHubPage = lazy(() => import('../pages/supplierHub/SupplierHubPage'));
+const PharmaPosPage = lazy(() => import('../pages/pharmaPos/PharmaPosPage'));
 const LoginPage = lazy(() => import('../pages/login/LoginPage'));
 const RegisterPage = lazy(() => import('../pages/register/RegisterPage'));
 const MenuPrincipalPage = lazy(() => import('../pages/menuPrincipal/MenuPrincipal'));
@@ -35,6 +36,10 @@ export const AppRoutes = () => (
             <Route
               path="/proveedores"
               element={<SupplierHubPage />}
+            />
+            <Route
+              path="/ventas"
+              element={<PharmaPosPage />}
             />
           </Route>
         </Route>
