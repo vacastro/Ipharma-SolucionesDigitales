@@ -8,22 +8,21 @@ import {
   ListItemText,
   Typography,
 } from '@mui/material';
-import {
-  Search, AddBox, Event, Inventory, History, Warning, Help
-} from '@mui/icons-material';
+import type { ReactNode } from 'react';
 
-const menuItems = [
-  { text: 'Búsqueda', icon: <Search /> },
-  { text: 'Ingresar Medicamento', icon: <AddBox /> },
-  { text: 'Control de Vencimientos', icon: <Event /> },
-  { text: 'Gestión de Lotes', icon: <Inventory /> },
-  { text: 'Historial de cambios', icon: <History /> },
-  { text: 'Inventario Físico', icon: <Inventory /> },
-  { text: 'Alertas de Stock', icon: <Warning /> },
-  { text: 'Tutoriales', icon: <Help /> },
-];
+export interface SidebarMenuItem {
+  text: string;
+  icon: ReactNode;
+  onClick?: () => void;
+  path?: string;
+}
 
-export default function Sidebar() {
+interface SidebarProps {
+  menuItems: SidebarMenuItem[];
+  title?: string;
+}
+
+export default function Sidebar({ menuItems, title = "IPHARMA" }: SidebarProps) {
   return (
     <Drawer
       variant="permanent"
@@ -41,18 +40,18 @@ export default function Sidebar() {
     >
       <Box sx={{ px: 2, pb: 2 }}>
         <Typography variant="h6" sx={{ color: '#155fa0', fontWeight: 'bold' }}>
-          IPHARMA
+          {title}
         </Typography>
-      <List>
-        {menuItems.map(({ text, icon }) => (
-          <ListItem key={text} disablePadding>
-            <ListItemButton>
-              <ListItemIcon>{icon}</ListItemIcon>
-              <ListItemText primary={text} />
-            </ListItemButton>
-          </ListItem>
-        ))}
-      </List>
+        <List>
+          {menuItems.map(({ text, icon, onClick }) => (
+            <ListItem key={text} disablePadding>
+              <ListItemButton onClick={onClick}>
+                <ListItemIcon>{icon}</ListItemIcon>
+                <ListItemText primary={text} />
+              </ListItemButton>
+            </ListItem>
+          ))}
+        </List>
       </Box>
     </Drawer>
   );

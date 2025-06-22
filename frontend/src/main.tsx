@@ -5,13 +5,18 @@ import App from './App.tsx'
 import { Provider } from 'react-redux'
 import { store } from './redux/store.ts'
 import { NotificationProvider } from './shared/notifications/notifications.provider.tsx'
+import { CssBaseline, ThemeProvider } from '@mui/material'
+import { theme } from './theme/theme.ts'
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <Provider store={store}>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <Provider store={store}>
         <NotificationProvider>
           <App />
         </NotificationProvider>
-    </Provider>
+      </Provider>
+    </ThemeProvider>
   </StrictMode>,
 )
