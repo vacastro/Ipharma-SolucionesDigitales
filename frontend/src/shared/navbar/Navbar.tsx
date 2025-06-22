@@ -10,18 +10,25 @@ import {
 import {
   AppBar,
   Avatar,
+  Badge,
   Divider,
   IconButton,
+  List,
+  ListItem,
   ListItemIcon,
+  ListItemText,
   Menu,
   MenuItem,
+  Popover,
   Toolbar,
   Tooltip,
 } from '@mui/material';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 import { logout } from '../../redux/slices/authSlice';
+import { fetchAlertas } from '../../services/alerta/alerta.service';
+import { useNotification } from '../notifications/notifications.provider';
 
 export default function Navbar() {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -29,6 +36,11 @@ export default function Navbar() {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const { user } = useAppSelector(state => state.auth);
+  const { showNotification } = useNotification();
+
+  const [alertas, setAlertas] = useState<any[]>([]);
+  const [anchorNotif, setAnchorNotif] = useState<null | HTMLElement>(null);
+
 
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
@@ -45,6 +57,25 @@ export default function Navbar() {
     handleClose();
   };
 
+
+  useEffect(() => {
+  const fetchAlertasAsync = async () => {
+    try {
+      const alertas = await fetchAlertas();
+      setAlertas(alertas);
+    } catch (error) {
+      showNotification('Error al cargar alertas', 'error');
+    }
+  };
+
+  fetchAlertasAsync(); // llamada inicial
+
+  const intervalId = setInterval(fetchAlertasAsync, 60 * 60 * 1000); // cada 1 minuto // 60 * 60 * 1000); // cada 1 hora
+  return () => clearInterval(intervalId); // limpieza cuando se desmonta
+  
+}, []);
+
+
   return (
     <AppBar position="static" elevation={0} sx={{ bgcolor: 'white', color: 'black' }}>
       <Toolbar sx={{ justifyContent: 'flex-end', gap: 2 }}>
@@ -56,7 +87,36 @@ export default function Navbar() {
 
         <IconButton><Settings /></IconButton>
         <IconButton><ChatBubbleOutline /></IconButton>
-        <IconButton><Notifications /></IconButton>
+        <IconButton onClick={(event) => setAnchorNotif(event.currentTarget)}>
+          <Badge badgeContent={alertas.length} color="error">
+            <Notifications />
+          </Badge>
+        </IconButton>
+        <Popover
+          open={Boolean(anchorNotif)}
+          anchorEl={anchorNotif}
+          onClose={() => setAnchorNotif(null)}
+          anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+          transformOrigin={{ vertical: 'top', horizontal: 'center' }}
+        >
+          <List sx={{ width: 300, maxHeight: 400, overflow: 'auto' }}>
+            {alertas.length === 0 ? (
+              <ListItem>
+                <ListItemText primary="Sin alertas por ahora 🎉" />
+              </ListItem>
+            ) : (
+              alertas.map(alerta => (
+                <ListItem key={alerta.id}>
+                  <ListItemText
+                    primary={alerta.medicamento?.nombre || 'Medicamento desconocido'}
+                    secondary={alerta.mensaje}
+                  />
+                </ListItem>
+              ))
+            )}
+          </List>
+        </Popover>
+
         <IconButton><HelpOutline /></IconButton>
         
         <Tooltip title="Perfil">

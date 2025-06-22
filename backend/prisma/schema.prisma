@@ -28,8 +28,10 @@ model Medicamento {
   presentacion        Presentacion        @map("presentacion")
   lote                String
   stock               Int                 @map("stock")
+  stockMinimo         Int                 @default(5) @map("stock_minimo")
   devoluciones        Devolucion[]
   inventarios         Inventario[]
+  alertas             AlertaStock[]
   proveedor           Proveedor           @relation(fields: [proveedorId], references: [id])
   recetasMedicamentos RecetaMedicamento[]
   ventaMedicamentos   VentaMedicamento[]
@@ -123,6 +125,14 @@ model Cliente {
   nombre    String
   suscripto Boolean
   ventas    Venta[]
+}
+
+model AlertaStock {
+  id            Int         @id @default(autoincrement())
+  medicamentoId Int
+  medicamento   Medicamento @relation(fields: [medicamentoId], references: [id])
+  mensaje       String
+  fecha         DateTime    @default(now())
 }
 
 enum FormaFarmaceutica {
