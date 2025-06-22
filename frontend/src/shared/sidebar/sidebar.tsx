@@ -9,18 +9,25 @@ import {
   Typography,
 } from '@mui/material';
 import {
-  Search, AddBox, Event, Inventory, History, Warning, Help
+  Search,
+  AddBox,
+  Event,
+  Inventory,
+  History,
+  Warning,
+  Help
 } from '@mui/icons-material';
+import { Link } from 'react-router-dom';
 
 const menuItems = [
-  { text: 'Búsqueda', icon: <Search /> },
-  { text: 'Ingresar Medicamento', icon: <AddBox /> },
-  { text: 'Control de Vencimientos', icon: <Event /> },
-  { text: 'Gestión de Lotes', icon: <Inventory /> },
-  { text: 'Historial de cambios', icon: <History /> },
-  { text: 'Inventario Físico', icon: <Inventory /> },
-  { text: 'Alertas de Stock', icon: <Warning /> },
-  { text: 'Tutoriales', icon: <Help /> },
+  { text: 'Búsqueda', icon: <Search />, path: '/medicamentos/buscar' },
+  { text: 'Ingresar Medicamento', icon: <AddBox />, path: '/medicamentos/ingresar' },
+  { text: 'Control de Vencimientos', icon: <Event />, path: '/medicamentos/vencimientos' },
+  { text: 'Gestión de Lotes', icon: <Inventory />, path: '/medicamentos/lotes' },
+  { text: 'Historial de cambios', icon: <History />, path: '/medicamentos/historial' },
+  { text: 'Inventario Físico', icon: <Inventory />, path: '/medicamentos/inventario' },
+  { text: 'Alertas de Stock', icon: <Warning />, path: '/medicamentos/alertas' },
+  { text: 'Tutoriales', icon: <Help />, path: '/tutoriales' },
 ];
 
 export default function Sidebar() {
@@ -43,16 +50,16 @@ export default function Sidebar() {
         <Typography variant="h6" sx={{ color: '#155fa0', fontWeight: 'bold' }}>
           IPHARMA
         </Typography>
-      <List>
-        {menuItems.map(({ text, icon }) => (
-          <ListItem key={text} disablePadding>
-            <ListItemButton>
-              <ListItemIcon>{icon}</ListItemIcon>
-              <ListItemText primary={text} />
-            </ListItemButton>
-          </ListItem>
-        ))}
-      </List>
+        <List>
+          {menuItems.map(({ text, icon, path }) => (
+            <ListItem key={text} disablePadding>
+              <ListItemButton component={Link} to={path}>
+                <ListItemIcon>{icon}</ListItemIcon>
+                <ListItemText primary={text} />
+              </ListItemButton>
+            </ListItem>
+          ))}
+        </List>
       </Box>
     </Drawer>
   );
