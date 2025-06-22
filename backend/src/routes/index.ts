@@ -4,6 +4,8 @@ import userRoutes from './private/users.routes';
 import { authMiddleware } from '../middlewares/authMiddleware';
 import proveedorRoutes from './private/proveedor.routes';
 import medicamentoRoutes from './private/medicamento.routes';
+import ventasRoutes from './private/ventas.routes';
+import alertaRoutes from './private/alerta.routes';
 import perfilRoutes from './public/usuarios.routes';
 
 const router = Router();
@@ -17,5 +19,8 @@ router.use('/users', perfilRoutes);
 router.use('/users', authMiddleware, userRoutes);
 router.use('/proveedores', proveedorRoutes);
 router.use('/medicamentos', medicamentoRoutes);
+router.use('/ventas', ventasRoutes);
+router.use('/alertas', alertaRoutes);
+
 
 export default router;
