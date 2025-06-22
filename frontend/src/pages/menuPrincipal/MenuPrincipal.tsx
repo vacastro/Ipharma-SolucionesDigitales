@@ -12,7 +12,7 @@ import { Link } from 'react-router-dom';
 
 const menuItems = [
   { text: 'Pharma Stock', icon: <AppsIcon sx={{ color: '#155fa0' }} />, path: '/medicamentos' },
-  { text: 'Supplier Hub', icon: <LocalShippingIcon sx={{ color: '#155fa0' }} /> },
+  { text: 'Supplier Hub', icon: <LocalShippingIcon sx={{ color: '#155fa0' }} />, path: '/proveedores' },
   { text: 'Rx Connect', icon: <Inventory sx={{ color: '#155fa0' }} /> },
   { text: 'Alertify', icon: <PodcastsIcon sx={{ color: '#155fa0' }} /> },
   { text: 'Pharma POS', icon: <ShoppingCartIcon sx={{ color: '#155fa0' }} /> },

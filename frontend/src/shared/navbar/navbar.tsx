@@ -1,22 +1,23 @@
 import {
+  ChatBubbleOutline,
+  HelpOutline,
+  Home,
+  Logout,
+  Notifications,
+  Person,
+  Settings
+} from '@mui/icons-material';
+import {
   AppBar,
-  Toolbar,
-  IconButton,
   Avatar,
-  Tooltip,
+  Divider,
+  IconButton,
+  ListItemIcon,
   Menu,
   MenuItem,
-  ListItemIcon,
-  Divider,
+  Toolbar,
+  Tooltip,
 } from '@mui/material';
-import {
-  Notifications,
-  HelpOutline,
-  ChatBubbleOutline,
-  Settings,
-  Logout,
-  Person
-} from '@mui/icons-material';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../redux/hooks';
@@ -47,6 +48,12 @@ export default function Navbar() {
   return (
     <AppBar position="static" elevation={0} sx={{ bgcolor: 'white', color: 'black' }}>
       <Toolbar sx={{ justifyContent: 'flex-end', gap: 2 }}>
+        <Tooltip title="Volver al Inicio">
+          <IconButton edge="start" onClick={() => navigate('/menu-principal')}>
+            <Home />
+          </IconButton>
+        </Tooltip>
+
         <IconButton><Settings /></IconButton>
         <IconButton><ChatBubbleOutline /></IconButton>
         <IconButton><Notifications /></IconButton>
