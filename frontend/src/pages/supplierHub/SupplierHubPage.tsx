@@ -38,13 +38,13 @@ export const SupplierHub: React.FC = () => {
         onClick: handleCreate
       },
       { 
-        text: 'Gestión de Proveedores', 
-        icon: <Business />,
+        text: 'Devoluciones', 
+        icon: <History />,
         onClick: () => console.log('Gestión clicked')
       },
       { 
-        text: 'Historial de Proveedores', 
-        icon: <History />,
+        text: 'Pedidos', 
+        icon: <Business />,
         onClick: () => console.log('Historial clicked')
       },
     ]);
