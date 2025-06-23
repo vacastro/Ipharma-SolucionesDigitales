@@ -9,4 +9,9 @@ export interface Medicamento {
   presentacion: string;
   lote: string;
   stock: number;
+  proveedor?: {
+    nombre: string;
+    direccion?: string;
+    telefono?: number;
+  };
 }
