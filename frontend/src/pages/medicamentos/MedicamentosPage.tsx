@@ -24,6 +24,8 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import axios from 'axios';
 import { getMedicamentos } from './medicamentos.service';
 import type { Medicamento } from '../../api/medicamento/medicamento.api.model';
+import { AddBox, Event, Help, History, Inventory, Search, Warning } from '@mui/icons-material';
+import { useSidebar } from '../../shared/sidebar/hooks/useSidebar';
 
 export const MedicamentosPage: React.FC = () => {
   const [data, setData] = useState<Medicamento[]>([]);
@@ -36,6 +38,58 @@ export const MedicamentosPage: React.FC = () => {
     const res = await getMedicamentos();
     setData(res);
   };
+
+  const { setSidebarItems } = useSidebar();
+
+  // Definir las opciones del sidebar para medicamentos
+  useEffect(() => {
+    // Cargar datos al montar el componente
+    cargarDatos();
+
+    // Definir las opciones del sidebar para medicamentos
+    setSidebarItems([
+      {
+        text: 'Búsqueda',
+        icon: <Search />,
+        onClick: () => console.log('Búsqueda de medicamentos clicked')
+      },
+      {
+        text: 'Ingresar Medicamento',
+        icon: <AddBox />,
+        onClick: () => console.log('Ingresar Medicamento clicked')
+      },
+      {
+        text: 'Control de Vencimientos',
+        icon: <Event />,
+        onClick: () => console.log('Control de Vencimientos clicked')
+      },
+      {
+        text: 'Gestión de Lotes',
+        icon: <Inventory />,
+        onClick: () => console.log('Gestión de Lotes clicked')
+      },
+      {
+        text: 'Historial de cambios',
+        icon: <History />,
+        onClick: () => console.log('Historial de cambios clicked')
+      },
+      {
+        text: 'Inventario Físico',
+        icon: <Inventory />,
+        onClick: () => console.log('Inventario Físico clicked')
+      },
+      {
+        text: 'Alertas de Stock',
+        icon: <Warning />,
+        onClick: () => console.log('Alertas de Stock clicked')
+      },
+      {
+        text: 'Tutoriales',
+        icon: <Help />,
+        onClick: () => console.log('Tutoriales clicked')
+      },
+    ]);
+  }, [setSidebarItems]);
 
   useEffect(() => {
     cargarDatos();

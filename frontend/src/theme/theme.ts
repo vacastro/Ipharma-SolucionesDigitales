@@ -8,5 +8,19 @@ export const theme = createTheme({
     secondary: {
       main: '#dc004e',
     },
+    background: {
+      default: '#f5f5f5', // Gris muy clarito para buen contraste
+      paper: '#ffffff',
+    },
+  },
+  components: {
+    MuiButton: {
+      styleOverrides: {
+        root: {
+          fontSize: '1rem',
+          textTransform: 'none',
+        },
+      },
+    },
   },
 });
