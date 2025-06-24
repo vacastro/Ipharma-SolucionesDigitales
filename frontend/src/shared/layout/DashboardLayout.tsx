@@ -1,8 +1,8 @@
 // src/layouts/DashboardLayout.tsx
 import { Outlet } from 'react-router-dom';
 import { Box } from '@mui/material';
-import Sidebar from '../sidebar/Sidebar';
-import Navbar from '../navbar/Navbar';
+import Sidebar from '../sidebar/sidebar';
+import Navbar from '../navbar/navbar';
 
 export const DashboardLayout = () => {
   return (
