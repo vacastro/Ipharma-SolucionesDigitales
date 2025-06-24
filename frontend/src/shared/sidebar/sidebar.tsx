@@ -11,10 +11,11 @@ import {
 import {
   Search, AddBox, Event, Inventory, History, Warning, Help
 } from '@mui/icons-material';
+import { useNavigate } from 'react-router-dom';
 
 const menuItems = [
-  { text: 'Búsqueda', icon: <Search /> },
-  { text: 'Ingresar Medicamento', icon: <AddBox /> },
+  { text: 'Búsqueda', icon: <Search />, route: '/medicamentos' },
+  { text: 'Ingresar Medicamento', icon: <AddBox />, route: '/ingresar-medicamentos' },
   { text: 'Control de Vencimientos', icon: <Event /> },
   { text: 'Gestión de Lotes', icon: <Inventory /> },
   { text: 'Historial de cambios', icon: <History /> },
@@ -24,6 +25,12 @@ const menuItems = [
 ];
 
 export default function Sidebar() {
+  const navigate = useNavigate();
+
+  const handleNavigation = (route: string) => {
+    navigate(route);
+  };
+
   return (
     <Drawer
       variant="permanent"
@@ -44,9 +51,9 @@ export default function Sidebar() {
           IPHARMA
         </Typography>
       <List>
-        {menuItems.map(({ text, icon }) => (
+        {menuItems.map(({ text, icon, route }) => (
           <ListItem key={text} disablePadding>
-            <ListItemButton>
+            <ListItemButton onClick={() => handleNavigation(route)}>
               <ListItemIcon>{icon}</ListItemIcon>
               <ListItemText primary={text} />
             </ListItemButton>
