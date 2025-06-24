@@ -4,9 +4,14 @@ export interface Medicamento {
   principioActivo: string;
   laboratorio: string;
   proveedorId: number;
-  fechaVencimiento: Date; // ISO date
+  fechaVencimiento: string;
   formaFarmaceutica: string;
   presentacion: string;
   lote: string;
   stock: number;
+  proveedor?: {
+    nombre: string;
+    direccion?: string;
+    telefono?: number;
+  };
 }
