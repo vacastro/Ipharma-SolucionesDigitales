@@ -1,15 +1,29 @@
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
-import { lazy, Suspense } from 'react';
-import { PrivateRoute } from './PrivateRoute';
-import { PublicRoute } from './PublicRoute';
-import { DashboardLayout } from '../shared/layout/DashboardLayout';
-import PageLoader from '../shared/pageLoader/PageLoader';
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Navigate,
+} from 'react-router-dom'
+import { lazy, Suspense } from 'react'
+import { PrivateRoute } from './PrivateRoute'
+import { PublicRoute } from './PublicRoute'
+import { DashboardLayout } from '../shared/layout/DashboardLayout'
+import PageLoader from '../shared/pageLoader/PageLoader'
 
-const MedicamentosPage = lazy(() => import('../pages/medicamentos/MedicamentosPage'));
-const SupplierHubPage = lazy(() => import('../pages/supplierHub/SupplierHubPage'));
-const LoginPage = lazy(() => import('../pages/login/LoginPage'));
-const RegisterPage = lazy(() => import('../pages/register/RegisterPage'));
-const MenuPrincipalPage = lazy(() => import('../pages/menuPrincipal/MenuPrincipal'));
+const MedicamentosPage = lazy(
+  () => import('../pages/medicamentos/MedicamentosPage')
+)
+const SupplierHubPage = lazy(
+  () => import('../pages/supplierHub/SupplierHubPage')
+)
+const AccessPharmaPage = lazy(
+  () => import('../pages/accessPharma/AccesPharmaPage')
+)
+const LoginPage = lazy(() => import('../pages/login/LoginPage'))
+const RegisterPage = lazy(() => import('../pages/register/RegisterPage'))
+const MenuPrincipalPage = lazy(
+  () => import('../pages/menuPrincipal/MenuPrincipal')
+)
 
 export const AppRoutes = () => (
   <Router>
@@ -28,14 +42,9 @@ export const AppRoutes = () => (
         <Route element={<PrivateRoute />}>
           <Route path="/menu-principal" element={<MenuPrincipalPage />} />
           <Route element={<DashboardLayout />}>
-            <Route
-              path="/medicamentos"
-              element={<MedicamentosPage />}
-            />
-            <Route
-              path="/proveedores"
-              element={<SupplierHubPage />}
-            />
+            <Route path="/medicamentos" element={<MedicamentosPage />} />
+            <Route path="/proveedores" element={<SupplierHubPage />} />
+            <Route path="/access-pharma" element={<AccessPharmaPage />} />
           </Route>
         </Route>
 
@@ -44,4 +53,4 @@ export const AppRoutes = () => (
       </Routes>
     </Suspense>
   </Router>
-);
+)

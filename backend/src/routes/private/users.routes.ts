@@ -20,7 +20,7 @@ const router = Router();
  */
 
 // Resto de rutas protegidas por autenticación
-router.use(authMiddleware);
+// router.use(authMiddleware);
 
 
 /**

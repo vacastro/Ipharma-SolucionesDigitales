@@ -16,7 +16,7 @@ router.use('/users', perfilRoutes);
 
 
 // Rutas privadas (requieren autenticación)
-router.use('/users', authMiddleware, userRoutes);
+router.use('/users', userRoutes);
 router.use('/proveedores', proveedorRoutes);
 router.use('/medicamentos', medicamentoRoutes);
 router.use('/ventas', ventasRoutes);

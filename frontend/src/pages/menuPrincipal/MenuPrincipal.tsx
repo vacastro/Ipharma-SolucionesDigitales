@@ -17,7 +17,7 @@ const menuItems = [
   { text: 'Alertify', icon: <PodcastsIcon sx={{ color: '#155fa0' }} /> },
   { text: 'Pharma POS', icon: <ShoppingCartIcon sx={{ color: '#155fa0' }} /> },
   { text: 'Pharma Analitycs', icon: <TrendingUpIcon sx={{ color: '#155fa0' }} /> },
-  { text: 'Access Pharma', icon: <PersonAddIcon sx={{ color: '#155fa0' }} /> },
+  { text: 'Access Pharma', icon: <PersonAddIcon sx={{ color: '#155fa0' }} />, path: '/access-pharma' }, 
   { text: 'Pharma Docs', icon: <FolderIcon sx={{ color: '#155fa0' }} /> },
 ];
 
